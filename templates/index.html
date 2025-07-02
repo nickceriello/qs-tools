@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="upload-section">
+    <div class="card">
+        <h2>Upload File for Analysis</h2>
+        <p>Upload a text (.txt) or CSV (.csv) file to analyze for special characters.</p>
+        
+        <form action="/" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Select file:</label>
+                <input type="file" id="file" name="file" accept=".txt,.csv" required>
+            </div>
+            
+            <div class="form-group">
+                <p class="info-text">The application will automatically detect the file encoding.</p>
+            </div>
+            
+            <button type="submit" class="btn">Analyze File</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="results-section">
+    <div class="card">
+        <h2>Analysis Results</h2>
+        <p>File: <strong>{{ filename }}</strong></p>
+        <p>Detected Encoding: <span class="detected-encoding">{{ encoding }}</span></p>
+        
+        {% if not has_results %}
+            <div class="no-results">
+                <p>✅ No special characters found that would be altered by the PHP function.</p>
+            </div>
+        {% else %}
+            {% for category, items in results.items() %}
+                <div class="result-category">
+                    <h3>{{ category }}</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Character</th>
+                                <th>Count</th>
+                                <th>Locations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td class="character">'{{ item.character }}'</td>
+                                    <td>{{ item.count }}</td>
+                                    <td class="locations">{{ item.locations }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <div class="try-again">
+            <h3>Try Different Encoding</h3>
+            <p class="info-text">If you believe the automatic detection chose the wrong encoding, you can try a different one:</p>
+            <form action="/try_encoding" method="post">
+                <input type="hidden" name="filename" value="{{ filename }}">
+                <div class="form-group">
+                    <label for="encoding">File encoding:</label>
+                    <select id="encoding" name="encoding">
+                        <option value="utf-8">UTF-8</option>
+                        <option value="windows-1252">Windows-1252</option>
+                        <option value="latin-1">Latin-1</option>
+                        <option value="iso-8859-1">ISO-8859-1</option>
+                        <option value="ascii">ASCII</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Try This Encoding</button>
+            </form>
+        </div>
+        
+        <div class="back-link">
+            <a href="/" class="btn">Analyze Another File</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
