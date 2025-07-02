@@ -20,6 +20,8 @@ A web application for analyzing text and CSV files for special characters. This 
 
 ## Usage
 
+### Local Development
+
 1. Start the web server:
    ```
    python app.py
@@ -27,6 +29,29 @@ A web application for analyzing text and CSV files for special characters. This 
 2. Open your browser and navigate to http://127.0.0.1:5000
 3. Upload a text or CSV file
 4. Click "Analyze File" to view the results (file encoding will be detected automatically)
+
+### Docker Deployment
+
+1. Build the Docker image:
+   ```
+   ./build-image.sh
+   ```
+   Or build manually:
+   ```
+   docker build -t file-analyzer .
+   ```
+
+2. Run the Docker container:
+   ```
+   docker run -p 5000:5000 file-analyzer
+   ```
+
+3. For production deployment with a WSGI server:
+   ```
+   docker run -p 5000:5000 -e FLASK_ENV=production file-analyzer gunicorn --bind 0.0.0.0:5000 app:app
+   ```
+
+4. Access the application at http://localhost:5000
 
 ## Command Line Usage
 
